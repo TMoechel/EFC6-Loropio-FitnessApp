@@ -6,7 +6,7 @@ using (FitnessAppContext context = new FitnessAppContext())
     context.Database.EnsureCreated();
 }
 AddAcitivity();
-GetRunActivities();
+GetActivities();
 Console.WriteLine("DB was created and run activities displyed");
 
 void AddAcitivity()
@@ -16,13 +16,16 @@ void AddAcitivity()
     context.RunActivities.Add(activity);
     context.SaveChanges();
 }
-void GetRunActivities()
+void GetActivities()
 {
     using var context = new FitnessAppContext();
     var activities = context.RunActivities.ToList();
     if (activities.Any())
         foreach (var activity in activities)
         {
-            Console.WriteLine($"{activity.Name} {activity.Distance}");    
+            Console.WriteLine($"{activity.Name} {activity.Distance}");
         }
+    else
+        Console.WriteLine("No activities recorded yet");
+
 }
