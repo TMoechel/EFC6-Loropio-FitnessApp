@@ -1,4 +1,4 @@
-﻿namespace EFC6.Ch2.BasicData.Domain
+﻿namespace EFC6.Ch2.FitnessApp.Domain
 {
     public class RunActivity
     {

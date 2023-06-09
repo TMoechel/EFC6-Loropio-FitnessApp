@@ -1,29 +1,41 @@
 ﻿using EfC6.Ch2.FitnessApp.Data;
-using EFC6.Ch2.BasicData.Domain;
+using EFC6.Ch2.FitnessApp.Domain;
+using Microsoft.EntityFrameworkCore;
 
 using (FitnessAppContext context = new FitnessAppContext())
 {
     context.Database.EnsureCreated();
 }
-AddAcitivity();
+AddUsers();
 GetActivities();
 Console.WriteLine("DB was created and run activities displyed");
 
-void AddAcitivity()
+void AddUsers()
 {
-    var activity = new RunActivity() { Name = "Jogging in the morning", Distance = 100 };
+    var user = new User() { 
+        FirstName = "Mike", 
+        LastName ="Miller" };
+    
+    user.RunActivities.Add(new RunActivity { Name = "Run from Lodwar to Loropio", Distance = 20 });
+    user.RunActivities.Add(new RunActivity { Name = "Run from Maralal to Wamba", Distance = 30 });
+
     var context = new FitnessAppContext();
-    context.RunActivities.Add(activity);
+    context.Users.Add(user);
     context.SaveChanges();
 }
 void GetActivities()
 {
     using var context = new FitnessAppContext();
-    var activities = context.RunActivities.ToList();
-    if (activities.Any())
-        foreach (var activity in activities)
+
+    var users = context.Users.Include(user => user.RunActivities).ToList();
+    if (users.Any())
+        foreach (var user in users)
         {
-            Console.WriteLine($"{activity.Name} {activity.Distance}");
+            Console.WriteLine($"First Name: {user.FirstName} Last Name: {user.LastName}");
+            foreach(var activity in user.RunActivities)
+            {
+                Console.WriteLine($"Name of Activity: {activity.Name} Distance: {activity.Distance}");
+            }
         }
     else
         Console.WriteLine("No activities recorded yet");
