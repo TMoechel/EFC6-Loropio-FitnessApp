@@ -1,30 +1,43 @@
 ﻿using EfC6.Ch2.FitnessApp.Data;
 using EFC6.Ch2.FitnessApp.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.X86;
 
 using (FitnessAppContext context = new FitnessAppContext())
 {
     context.Database.EnsureCreated();
 }
 
-AddUsers();
+AddUsersWithActivities();
 GetActivities();
 
 Console.WriteLine("DB was created and run activities displyed");
 
-void AddUsers()
+void AddUsersWithActivities()
 {
-    var user = new User() { 
-        FirstName = "Mike", 
-        LastName ="Miller" };
-    
-    user.RunActivities.Add(new RunActivity { Name = "Run from Lodwar to Loropio", Distance = 20 });
-    user.RunActivities.Add(new RunActivity { Name = "Run from Maralal to Wamba", Distance = 30 });
+    User user1 = AddUser("Mike", "Miller");
+    AddRunActivity(user1, "Run from Loropio to Lodwar", 40);
+    AddRunActivity(user1, "Run from Nairobi to Nakuru", 80);
+
+
+    User user2 = AddUser("Joan", "Henson");
+    AddRunActivity(user2, "Run from Maralal to Wamba", 60);
+    AddRunActivity(user2, "Run from Naivasha to Nakuru", 40);
 
     var context = new FitnessAppContext();
-    context.Users.Add(user);
+    
+    context.Users.Add(user1);
+    context.Users.Add(user2);
+
+
     context.SaveChanges();
 }
+
+void AddRunActivity(User user, string nameRunActivity, int distance)
+{
+    user.RunActivities.Add(new RunActivity { Name = nameRunActivity, Distance = distance });
+}
+
 void GetActivities()
 {
     using var context = new FitnessAppContext();
@@ -42,4 +55,15 @@ void GetActivities()
     else
         Console.WriteLine("No activities recorded yet");
 
+}
+
+static User AddUser(string firstName, string lastName)
+{
+    var user1 = new User()
+    {
+        FirstName = firstName,
+        LastName = lastName
+    };
+   
+    return user1;
 }
