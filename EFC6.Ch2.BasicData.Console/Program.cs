@@ -6,8 +6,10 @@ using (FitnessAppContext context = new FitnessAppContext())
 {
     context.Database.EnsureCreated();
 }
+
 AddUsers();
 GetActivities();
+
 Console.WriteLine("DB was created and run activities displyed");
 
 void AddUsers()
