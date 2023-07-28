@@ -21,7 +21,7 @@ void AddUsersWithActivities()
 
 
     User user2 = AddUser("Joan", "Henson");
-    AddRunActivity(user2, "Run from Maralal to Wamba", 60);
+    AddRunActivity(user2, "Run from Maralal to Kitale", 60);
     AddRunActivity(user2, "Run from Naivasha to Nakuru", 40);
 
     var context = new FitnessAppContext();
